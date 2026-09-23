@@ -1,0 +1,41 @@
+robot:
+  name: ECM
+  type: ECM
+  parent_frame: world
+  base_frame: ECM_base
+  base_pose:
+    position: [0.0, 0.0, 0.0]
+    orientation_xyzw: [0.0, 0.0, 0.0, 1.0]
+  tool_frame: ECM_optical
+  adaptor_frame: ECM_adaptor_link
+
+  joints:
+    - name: yaw
+      type: revolute
+      lower: -1.5707963
+      upper: 1.5707963
+      velocity: 1.0
+    - name: pitch
+      type: revolute
+      lower: -0.7853982
+      upper: 0.7853982
+      velocity: 1.0
+    - name: insertion
+      type: prismatic
+      lower: 0.0
+      upper: 0.299
+      velocity: 0.4
+    - name: roll
+      type: revolute
+      lower: -4.53786
+      upper: 4.53786
+      velocity: 1.0
+
+  home_position: [0.0, 0.0, 0.02, 0.0]
+
+  asset:
+    endoscope: Si_straight
+
+
+  cartesian:
+    reference_frame: world
