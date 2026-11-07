@@ -81,3 +81,10 @@ def test_base_quaternion_is_normalized_and_read_only():
     )
     np.testing.assert_allclose(config.base_orientation_xyzw, [0.0, 0.0, 0.0, 1.0])
     assert not config.base_orientation_xyzw.flags.writeable
+
+
+def test_ecm_camera_and_controller_frames_are_distinct():
+    config = load_robot_config(ROOT / "arms/ECM.yaml")
+    assert config.tool_frame == "ECM_tip_link"
+    assert config.camera_frame == "ECM_optical"
+    assert load_robot_config(ROOT / "arms/PSM1.yaml").camera_frame is None

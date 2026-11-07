@@ -69,6 +69,11 @@ class RobotConfig:
     home_position: np.ndarray
     raw: dict[str, Any]
 
+    @property
+    def camera_frame(self) -> str | None:
+        """Canonical ROS optical frame, distinct from the controller tool frame."""
+        return self.raw["robot"].get("camera_frame", f"{self.name}_optical") if self.type == "ECM" else None
+
 
 def with_base_pose(config: RobotConfig, *, position: Any | None = None,
                    orientation_xyzw: Any | None = None) -> RobotConfig:
@@ -114,6 +119,10 @@ def load_robot_config(path: str | Path, base_position: Any | None = None,
     missing = [key for key in required if key not in robot]
     if missing:
         raise ValueError(f"{source}: missing robot fields: {', '.join(missing)}")
+    if robot_type == "ECM":
+        camera_frame = f"{robot['name']}_optical"
+        if robot.get("camera_frame", camera_frame) != camera_frame:
+            raise ValueError(f"{source}: ECM camera_frame must be {camera_frame}")
     base_pose = robot.get("base_pose", {})
     position = np.asarray(base_pose.get("position", [0.0, 0.0, 0.0]), dtype=float)
     orientation = np.asarray(base_pose.get("orientation_xyzw", [0.0, 0.0, 0.0, 1.0]), dtype=float)

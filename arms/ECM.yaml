@@ -6,7 +6,8 @@ robot:
   base_pose:
     position: [0.0, 0.0, 0.0]
     orientation_xyzw: [0.0, 0.0, 0.0, 1.0]
-  tool_frame: ECM_optical
+  tool_frame: ECM_tip_link
+  camera_frame: ECM_optical
   adaptor_frame: ECM_adaptor_link
 
   joints:
